@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>todoList</title>
+</head>
+<body>
+	<h1>todoList</h1>
+	<span class="hidden" th:value="${userId}"></span>
+	<table border="1">
+		<tr>
+			<th>重要度</th>
+			<th>やること</th>
+			<th>期限</th>
+			<th>カテゴリ</th>
+			<th>備考・メモ</th>
+			<th>実施済み</th>
+		</tr>
+		<tr th:each="item : ${todoList}">
+			<td th:text="${item.importance}"></td>
+			<td th:text="${item.todo}"></td>
+			<td th:text="${item.term}"></td>
+			<td th:text="${item.category}"></td>
+			<td th:text="${item.memo}"></td>
+			<td><input type="checkbox" th:value="${item.id}"></td>
+		</tr>
+	</table>
+
+</body>
+</html>
