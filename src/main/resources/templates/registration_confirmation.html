@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ユーザー登録情報確認</title>
+</head>
+<body>
+	<h3>以下の内容で登録します。よろしいですか？</h3>
+	<form th:action="@{/user/registrationComplete}" method="post" th:object="${usersForm}">
+		<div>ユーザー名</div>
+		<div  th:text="${user.name}"></div>
+		<input type="hidden" th:field="*{name}" name="name">
+		<div>メールアドレス</div>
+		<div th:text="${user.email}"></div>
+		<input type="hidden" th:field="*{email}" name="email">
+		<div>パスワード</div>
+		<div>********</div>
+		<input type="hidden" th:field="*{password}" name="password">
+		<div>秘密の質問1</div>
+		<div th:text="${user.secretQuestion1}"></div>
+		<input type="hidden" th:field="*{secretQuestion1}" name="secretQuestion1">
+		<div>秘密の質問1の答え</div>
+		<div th:text="${user.secretAnswer1}"></div>
+		<input type="hidden" th:field="*{secretAnswer1}" name="secretAnswer1">
+		<div>秘密の質問2</div>
+		<div th:text="${user.secretQuestion2}"></div>
+		<input type="hidden" th:field="*{secretQuestion2}" name="secretQuestion2">
+		<div>秘密の質問2の答え</div>
+		<div th:text="${user.secretAnswer2}"></div>
+		<input type="hidden" th:field="*{secretAnswer2}" name="secretAnswer2">
+		<div>秘密の質問3</div>
+		<div th:text="${user.secretQuestion3}"></div>
+		<input type="hidden" th:field="*{secretQuestion3}" name="secretQuestion3">
+		<div>秘密の質問3の答え</div>
+		<div th:text="${user.secretAnswer3}"></div>
+		<input type="hidden" th:field="*{secretAnswer3}" name="secretAnswer3">
+		<button>登録</button>
+	</form>
+		<button type="button" onclick=history.back()>修正</button>
+
+
+</body>
+</html>
