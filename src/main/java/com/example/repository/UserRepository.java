@@ -26,6 +26,24 @@ public class UserRepository {
 		return users;
 	};
 
+	private static final RowMapper<Users> SECRET_QUESTIONS_ROW_MAPPER = (rs, i) -> {
+		Users users = new Users();
+		users.setEmail(rs.getString("email"));
+		users.setSecretQuestion1(rs.getString("secret_question1"));
+		users.setSecretQuestion2(rs.getString("secret_question2"));
+		users.setSecretQuestion3(rs.getString("secret_question3"));
+		return users;
+	};
+
+	private static final RowMapper<Users> SECRET_ANSWERS_ROW_MAPPER = (rs, i) -> {
+		Users users = new Users();
+		users.setEmail(rs.getString("email"));
+		users.setSecretAnswer1(rs.getString("secret_answer1"));
+		users.setSecretAnswer2(rs.getString("secret_answer2"));
+		users.setSecretAnswer3(rs.getString("secret_answer3"));
+		return users;
+	};
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
@@ -70,11 +88,63 @@ public class UserRepository {
 	 * @param users
 	 * @return
 	 */
-	public Users findByEmailAndPassword(Users users) {
-		String sql = "SELECT id ,name ,email ,password FROM users WHERE email=:email";
-		SqlParameterSource param = new MapSqlParameterSource().addValue(sql, users.getEmail());
-		Users user = template.queryForObject(sql, param, USERS_ROW_MAPPER);
-		return user;
+	public Users findByEmailAndPassword(UsersForm form) {
+		String sql = "SELECT id ,name ,email ,password FROM users WHERE email=:email AND password=:password ;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("email", form.getEmail()).addValue("password",
+				form.getPassword());
+		List<Users> user = template.query(sql, param, USERS_ROW_MAPPER);
+		if (user.size() == 0) {
+			return null;
+		}
+		return user.get(0);
+	}
+
+	/**
+	 * パスワード再発行時の秘密の質問取得
+	 * 
+	 * @param email
+	 * @return
+	 */
+	public Users findByEmailForQuestion(UsersForm form) {
+		String sql = "SELECT email ,secret_question1 ,secret_question2 ,secret_question3 FROM users WHERE email=:email";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("email", form.getEmail());
+		List<Users> users = template.query(sql, param, SECRET_QUESTIONS_ROW_MAPPER);
+		return users.get(0);
+	}
+
+	/**
+	 * 秘密の質問と回答の照合結果取得
+	 * 
+	 * @param form
+	 * @return
+	 */
+	public Users findBySecretQuestions(UsersForm form) {
+		String sql = "SELECT email ,secret_answer1 ,secret_answer2 ,secret_answer3 FROM users WHERE email=:email AND"
+				+ " secret_question1=:secretQuestion1 AND secret_question2=:secretQuestion2 AND secret_question3=:secretQuestion3"
+				+ " AND secret_answer1=:secretAnswer1 AND secret_answer2=:secretAnswer2 AND secret_answer3=:secretAnswer3 ;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("email", form.getEmail())
+				.addValue("secretQuestion1", form.getSecretQuestion1())
+				.addValue("secretQuestion2", form.getSecretQuestion2())
+				.addValue("secretQuestion3", form.getSecretQuestion3())
+				.addValue("secretAnswer1", form.getSecretAnswer1()).addValue("secretAnswer2", form.getSecretAnswer2())
+				.addValue("secretAnswer3", form.getSecretAnswer3());
+		List<Users> users = template.query(sql, param, SECRET_ANSWERS_ROW_MAPPER);
+		if (users.size() == 0) {
+			return null;
+		}
+		return users.get(0);
+	}
+
+	/**
+	 * パスワードの更新
+	 * 
+	 * @param form
+	 */
+	public void updatePassword(UsersForm form) {
+		String sql = "UPDATE users SET password=:password WHERE email=:email ;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("password", form.getPassword())
+				.addValue("email", form.getEmail());
+		template.update(sql, param);
 	}
 
 	/**

@@ -45,15 +45,8 @@ public class UserController {
 	 * ユーザー登録確認画面表示 <br>
 	 * 同一メールアドレスが使用されている場合は登録完了せずに登録画面に戻る
 	 * 
-	 * @param name
-	 * @param email
-	 * @param password
-	 * @param secretQuestion1
-	 * @param secretQuestion2
-	 * @param secretQuestion3
-	 * @param secretAnswer1
-	 * @param secretAnswer2
-	 * @param secretAnswer3
+	 * @param form
+	 * @param model
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
@@ -70,6 +63,13 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * ユーザー登録完了画面表示
+	 * 
+	 * @param form
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
 	@RequestMapping("/registrationComplete")
 	public String registrationComplete(UsersForm form) throws NoSuchAlgorithmException {
 		boolean result = userService.registrationUser(form);
@@ -78,6 +78,86 @@ public class UserController {
 		}
 		session.removeAttribute("error");
 		return "registration_complete";
+	}
+
+	/**
+	 * ユーザーログイン
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/login")
+	public String toLogin() {
+		return "todo_login";
+	}
+
+	@RequestMapping("/loginCheck")
+	public String loginCheck(UsersForm form, Model model) throws NoSuchAlgorithmException {
+		boolean result = userService.loginCheck(form);
+		if (result == false) {
+			model.addAttribute("errorMessage", "メールアドレスまたはパスワードに誤りがあります。");
+			return "todo_login";
+		}
+
+		return "mypage_top";
+	}
+
+	/**
+	 * パスワード再設定用ページ表示 <br>
+	 * 登録済みメールアドレスを入力する
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/resetPassword")
+	public String resetPassword() {
+		return "resetPassword";
+	}
+
+	/**
+	 * 入力されたメールアドレスが登録されているか確認し、あれば登録時に設定した秘密の質問を取得する <br>
+	 * 表示するページで秘密の質問に回答する
+	 * 
+	 * @param email
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/secretQuestion")
+	public String secretQuestion(UsersForm form, Model model) {
+		form = userService.findByEmail(form);
+		if (form.getSecretQuestion1() == null) {
+			model.addAttribute("error", "このメールアドレスは登録されていません。");
+			return "resetPassword";
+		}
+		return "secret_question";
+	}
+
+	/**
+	 * 秘密の質問の答えと照合し、合っている場合はパスワード再設定用のページを表示する
+	 * 
+	 * @param form
+	 * @return
+	 */
+	@RequestMapping("/changePassword")
+	public String changePassword(UsersForm form, Model model) {
+		Users users = userService.findBySecretQuestion(form);
+		if (users == null) {
+			model.addAttribute("error", "回答が一致しません");
+			return "secret_question";
+		}
+		model.addAttribute("email", users.getEmail());
+		return "change_password";
+	}
+
+	/**
+	 * パスワードの変更を行い、ログイン画面に返す
+	 * 
+	 * @param password
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	@RequestMapping("/resetPasswordComplete")
+	public String resetPasswordComplete(UsersForm form) throws NoSuchAlgorithmException {
+		userService.updatePassword(form);
+		return "redirect:/user/login";
 	}
 
 }
