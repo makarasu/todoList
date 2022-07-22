@@ -5,6 +5,30 @@
 <title>to-do登録</title>
 </head>
 <body>
+	<form th:action="@{/todoList/add}" method="post">
+		<div>重要度</div>
+		<select name="importance">
+			<option value="1">☆</option>
+			<option value="2">☆☆</option>
+			<option value="3">☆☆☆</option>
+		</select>
+		<div>内容</div>
+		<input type="text" name="todo"> <br>
+		<div>期限</div>
+		<input type="datetime" name="term">
+		<div>カテゴリー</div>
+		<select name="category">
+			<option value="1">仕事</option>
+			<option value="2">家事</option>
+			<option value="3">プライベート</option>
+			<option value="4">その他</option>
+		</select>
+		<div>備考・メモ</div>
+		<textarea rows="4" cols="50" name="memo"></textarea>
+		<input type="hidden" th:value="${users.id}">
+		<button>登録</button>
+		<button type="reset">リセット</button>
+	</form>
 
 </body>
 </html>
