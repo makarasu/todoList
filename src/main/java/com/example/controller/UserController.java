@@ -52,9 +52,9 @@ public class UserController {
 	 */
 	@RequestMapping("/registrationConfirmation")
 	public String registrationUser(UsersForm form, Model model) throws NoSuchAlgorithmException {
-		boolean result = userService.checkEmail(form);
+		Users result = userService.checkEmail(form);
 		model.addAttribute("registrateUser", form);
-		if (result == false) {
+		if (result == null) {
 			session.setAttribute("error", "このメールアドレスは使用されています。");
 			return "user_registrate";
 		} else {
@@ -72,10 +72,7 @@ public class UserController {
 	 */
 	@RequestMapping("/registrationComplete")
 	public String registrationComplete(UsersForm form) throws NoSuchAlgorithmException {
-		boolean result = userService.registrationUser(form);
-		if (result == false) {
-			return "redirect:/user/registration";
-		}
+		userService.insertUsers(form);
 		session.removeAttribute("error");
 		return "registration_complete";
 	}
@@ -92,9 +89,9 @@ public class UserController {
 
 	@RequestMapping("/loginCheck")
 	public String loginCheck(UsersForm form, Model model) throws NoSuchAlgorithmException {
-		boolean result = userService.loginCheck(form);
-		if (result == false) {
-			model.addAttribute("errorMessage", "メールアドレスまたはパスワードに誤りがあります。");
+		Users result = userService.findUser(form);
+		if (result == null) {
+			model.addAttribute("errorMessage", "メールアドレスまたはパスワードに誤りがあります");
 			return "todo_login";
 		}
 
@@ -122,8 +119,8 @@ public class UserController {
 	 */
 	@RequestMapping("/secretQuestion")
 	public String secretQuestion(UsersForm form, Model model) {
-		form = userService.findByEmail(form);
-		if (form.getSecretQuestion1() == null) {
+		Users result = userService.checkEmail(form);
+		if (result == null) {
 			model.addAttribute("error", "このメールアドレスは登録されていません。");
 			return "resetPassword";
 		}
@@ -138,7 +135,7 @@ public class UserController {
 	 */
 	@RequestMapping("/changePassword")
 	public String changePassword(UsersForm form, Model model) {
-		Users users = userService.findBySecretQuestion(form);
+		Users users = userService.checkSecretAnswer(form);
 		if (users == null) {
 			model.addAttribute("error", "回答が一致しません");
 			return "secret_question";

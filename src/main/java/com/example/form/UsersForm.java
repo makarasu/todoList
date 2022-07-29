@@ -1,16 +1,16 @@
 package com.example.form;
 
+import javax.validation.constraints.Email;
+
 public class UsersForm {
 
 	private Integer id;
 	private String name;
+	@Email
 	private String email;
 	private String password;
-	private String secretQuestion1;
 	private String secretAnswer1;
-	private String secretQuestion2;
 	private String secretAnswer2;
-	private String secretQuestion3;
 	private String secretAnswer3;
 
 	public Integer getId() {
@@ -45,28 +45,12 @@ public class UsersForm {
 		this.password = password;
 	}
 
-	public String getSecretQuestion1() {
-		return secretQuestion1;
-	}
-
-	public void setSecretQuestion1(String secretQuestion1) {
-		this.secretQuestion1 = secretQuestion1;
-	}
-
 	public String getSecretAnswer1() {
 		return secretAnswer1;
 	}
 
 	public void setSecretAnswer1(String secretAnswer1) {
 		this.secretAnswer1 = secretAnswer1;
-	}
-
-	public String getSecretQuestion2() {
-		return secretQuestion2;
-	}
-
-	public void setSecretQuestion2(String secretQuestion2) {
-		this.secretQuestion2 = secretQuestion2;
 	}
 
 	public String getSecretAnswer2() {
@@ -77,14 +61,6 @@ public class UsersForm {
 		this.secretAnswer2 = secretAnswer2;
 	}
 
-	public String getSecretQuestion3() {
-		return secretQuestion3;
-	}
-
-	public void setSecretQuestion3(String secretQuestion3) {
-		this.secretQuestion3 = secretQuestion3;
-	}
-
 	public String getSecretAnswer3() {
 		return secretAnswer3;
 	}
@@ -92,4 +68,5 @@ public class UsersForm {
 	public void setSecretAnswer3(String secretAnswer3) {
 		this.secretAnswer3 = secretAnswer3;
 	}
+
 }
