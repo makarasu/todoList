@@ -3,102 +3,168 @@ package com.example.service;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.domain.Token;
 import com.example.domain.Users;
 import com.example.form.UsersForm;
-import com.example.repository.UserRepository;
+import com.example.repository.UsersRepository;
 
 @Service
 public class UserService {
 
+	@PersistenceContext
+	EntityManager entityManager;
+
 	@Autowired
-	UserRepository userRepository;
+	UsersRepository usersRepository;
+
+	private static int TPOKEN_LENGTH = 16;
 
 	/**
-	 * 登録済みメールアドレスではないか確認
-	 * 
-	 * @param form
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 */
-	public boolean checkEmail(UsersForm form) throws NoSuchAlgorithmException {
-		Users checkUsers = userRepository.findByEmail(form);
-		if (checkUsers != null) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * ユーザー情報登録
-	 * 
-	 * @param form
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 */
-	public boolean registrationUser(UsersForm form) throws NoSuchAlgorithmException {
-		form = changePasswordHash(form);
-		boolean result = userRepository.insertUser(form);
-		return result;
-	}
-
-	/**
-	 * ログイン情報チェックとトークンの発行
-	 * 
-	 * @param form
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 */
-	public boolean loginCheck(UsersForm form) throws NoSuchAlgorithmException {
-		form = changePasswordHash(form);
-		Users users = userRepository.findByEmailAndPassword(form);
-		if (users == null) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * 秘密の質問取得
+	 * 同一メールアドレスが登録されていないか確認する
 	 * 
 	 * @param email
 	 * @return
 	 */
-	public UsersForm findByEmail(UsersForm form) {
-		Users users = userRepository.findByEmailForQuestion(form);
+	@Transactional(readOnly = true)
+	public Users checkEmail(UsersForm form) {
+		Users users = usersRepository.findByEmail(form);
 		if (users == null) {
 			return null;
 		}
-		form.setEmail(users.getEmail());
-		form.setSecretQuestion1(users.getSecretQuestion1());
-		form.setSecretQuestion2(users.getSecretQuestion2());
-		form.setSecretQuestion3(users.getSecretQuestion3());
-		return form;
+		return users;
 	}
 
 	/**
-	 * 秘密の質問と回答・メールアドレスの照合
+	 * ユーザー登録
 	 * 
-	 * @param form
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	@Transactional
+	public void insertUsers(UsersForm form) throws NoSuchAlgorithmException {
+		form = changePasswordHash(form);
+		Users users = new Users();
+		users.setName(form.getName());
+		users.setEmail(form.getEmail());
+		users.setPassword(form.getPassword());
+		users.setSecretAnswer1(form.getSecretAnswer1());
+		users.setSecretAnswer2(form.getSecretAnswer2());
+		users.setSecretAnswer3(form.getSecretAnswer3());
+		entityManager.persist(users);
+	}
+
+	/**
+	 * ログイン情報照会
+	 * 
 	 * @return
 	 */
-	public Users findBySecretQuestion(UsersForm form) {
-		Users users = userRepository.findBySecretQuestions(form);
+	@Transactional(readOnly = true)
+	public Users findUser(UsersForm form) {
+		Users users = new Users();
+		users.setEmail(form.getEmail());
+		users.setPassword(form.getPassword());
+		users = entityManager.find(Users.class, form.getEmail());
+		return users;
+	}
+
+	/**
+	 * トークンの登録
+	 * 
+	 * @return
+	 */
+	@Transactional
+	public void insertToken(Integer id) {
+		Token token = new Token();
+		String createToken = createToken(id.toString());
+		Users users = entityManager.find(Users.class, id);
+		String nowDate = generateNowDate();
+		token.setUserId(users);
+		token.setToken(createToken);
+		token.setGenerateDate(nowDate);
+		token.setUpdateDate(nowDate);
+		entityManager.persist(token);
+	}
+
+	/**
+	 * トークンの更新
+	 */
+	@Transactional
+	public Token updateToken(String token) {
+		Token token2 = new Token();
+		String nowDate = generateNowDate();
+		token2 = entityManager.find(Token.class, token);
+		String newToken = createToken(token);
+		token2.setToken(newToken);
+		token2.setUpdateDate(nowDate);
+		return token2;
+	}
+
+	// @Transactional(readOnly = true)
+	public Users checkSecretAnswer(UsersForm form) {
+		Users users = usersRepository.findBySecrets(form);
+		if (users == null) {
+			return null;
+		}
 		return users;
 	}
 
 	/**
 	 * パスワードの更新
 	 * 
-	 * @param form
+	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
+	@Transactional
 	public void updatePassword(UsersForm form) throws NoSuchAlgorithmException {
 		form = changePasswordHash(form);
-		userRepository.updatePassword(form);
+		Users users = usersRepository.findByEmail(form);
+		users.setPassword(form.getPassword());
+		entityManager.merge(users);
+	}
+
+	/**
+	 * トークンの生成
+	 * 
+	 * @return
+	 */
+	public String createToken(String word) {
+		byte token[] = new byte[TPOKEN_LENGTH];
+		StringBuffer buffer = new StringBuffer();
+		SecureRandom random = null;
+
+		try {
+			random = SecureRandom.getInstance(word);
+			random.nextBytes(token);
+			for (int i = 0; i < token.length; i++) {
+				buffer.append(String.format("%02x", token[i]));
+			}
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return buffer.toString();
+	}
+
+	/**
+	 * 現在時刻の取得
+	 * 
+	 * @return
+	 */
+	public String generateNowDate() {
+		LocalDateTime localDateTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String nowDate = formatter.format(localDateTime);
+		return nowDate;
 	}
 
 	/**
@@ -115,4 +181,5 @@ public class UserService {
 		form.setPassword(hashedPassword);
 		return form;
 	}
+
 }

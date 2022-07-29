@@ -1,40 +1,63 @@
 package com.example.service;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.TodoList;
-import com.example.domain.Users;
-import com.example.repository.ToDoListRepository;
 
 @Service
 public class ToDoListService {
-	
-	@Autowired
-	ToDoListRepository toDoListRepository;
-	
-	public List<TodoList> findList(String token){
-		//現在時刻の取得
-		Date date = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		//現在時刻から30分前の日時を取得
-		calendar.add(Calendar.MINUTE, -30);
-		String dateString = String.valueOf(calendar);
-		
-		//受け取ったトークンが有効か（最終更新から30分が経過していないか）チェックする
-		String checkToken = toDoListRepository.findValidToken(dateString);
-		
-		if(!(checkToken.isEmpty())) {
-			Users users = toDoListRepository.findByToken(checkToken);
-			List<TodoList> todoLists = toDoListRepository.findTodoList(users.getId());
-			return todoLists;
-		}
-		throw new NullPointerException();
+
+	@PersistenceContext
+	EntityManager entityManager;
+
+	/**
+	 * to-doリストの取得 tokenが無効の場合は取得結果を返さない
+	 * 
+	 * @param token
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<TodoList> findList(String token) {
+		List<TodoList> todoLists = (List<TodoList>) entityManager.find(TodoList.class, token);
+		return todoLists;
+
 	}
 
+	/**
+	 * todoリストの追加をする
+	 * 
+	 * @return
+	 */
+	@Transactional
+	public TodoList insertTodo() {
+		TodoList todoList = new TodoList();
+		return todoList;
+	}
+
+	/**
+	 * todoリストの更新を行う
+	 * 
+	 * @return
+	 */
+	@Transactional
+	public void updateTodo() {
+
+	}
+
+	/**
+	 * todoの削除
+	 * 
+	 * @return
+	 */
+	@Transactional
+	public void deleteTodo() {
+
+	}
 }
