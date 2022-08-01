@@ -96,7 +96,7 @@ public class UserController {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードに誤りがあります");
 			return "todo_login";
 		}
-
+		model.addAttribute("token", result.getToken());
 		return "mypage_top";
 	}
 
