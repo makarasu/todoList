@@ -1,10 +1,15 @@
 package com.example.repository;
 
+import java.sql.Timestamp;
+
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.example.domain.Users;
@@ -15,6 +20,9 @@ public class UsersRepository {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+
+	@Autowired
+	EntityManagerFactory entityManagerFactory;
 
 	/**
 	 * 入力されたメールアドレスが登録されているか
@@ -67,6 +75,27 @@ public class UsersRepository {
 			return query.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
+		}
+	}
+
+	/**
+	 * 有効期限切れのトークンをテーブルから削除する
+	 * 
+	 * @param timestamp
+	 */
+	public void deleteInvalidToken(Timestamp timestamp) {
+		System.out.println(timestamp);
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			entityManager.getTransaction().begin();
+			String jpql = "DELETE FROM Token t WHERE t.updateDate<:checkDate";
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("checkDate", timestamp);
+			query.executeUpdate();
+			entityManager.getTransaction().commit();
+			entityManager.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

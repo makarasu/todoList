@@ -85,6 +85,7 @@ public class UserController {
 	 */
 	@RequestMapping("/login")
 	public String toLogin() {
+		userService.deleteInvalidToken();
 		return "todo_login";
 	}
 

@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -76,7 +78,7 @@ public class UserService {
 		if (users == null) {
 			return null;
 		}
-		Token token = insertToken(users.getId());
+		Token token = insertToken(users);
 
 		return token;
 	}
@@ -87,10 +89,9 @@ public class UserService {
 	 * @return
 	 */
 	@Transactional
-	public Token insertToken(Integer id) {
+	public Token insertToken(Users users) {
 		Token token = new Token();
-		String createToken = createToken(id.toString());
-		Users users = entityManager.find(Users.class, id);
+		String createToken = createToken();
 		Date nowDate = generateNowDate();
 		token.setUserId(users);
 		token.setToken(createToken);
@@ -108,7 +109,7 @@ public class UserService {
 		Token token2 = new Token();
 		Date nowDate = generateNowDate();
 		token2 = entityManager.find(Token.class, token);
-		String newToken = createToken(token);
+		String newToken = createToken();
 		token2.setToken(newToken);
 		token2.setUpdateDate(nowDate);
 		return token2;
@@ -142,13 +143,12 @@ public class UserService {
 	 * 
 	 * @return
 	 */
-	public String createToken(String word) {
+	public String createToken() {
 		byte token[] = new byte[TPOKEN_LENGTH];
 		StringBuffer buffer = new StringBuffer();
 		SecureRandom random = null;
-
 		try {
-			random = SecureRandom.getInstance(word);
+			random = SecureRandom.getInstance("SHA1PRNG");
 			random.nextBytes(token);
 			for (int i = 0; i < token.length; i++) {
 				buffer.append(String.format("%02x", token[i]));
@@ -157,6 +157,16 @@ public class UserService {
 			e.printStackTrace();
 		}
 		return buffer.toString();
+	}
+
+	/**
+	 * 有効期限切れトークンの削除
+	 */
+	public void deleteInvalidToken() {
+		LocalDateTime localDateTime = LocalDateTime.now();
+		localDateTime = localDateTime.minusMinutes(30);
+		Timestamp timestamp = Timestamp.valueOf(localDateTime);
+		usersRepository.deleteInvalidToken(timestamp);
 	}
 
 	/**
@@ -183,5 +193,4 @@ public class UserService {
 		form.setPassword(hashedPassword);
 		return form;
 	}
-
 }
