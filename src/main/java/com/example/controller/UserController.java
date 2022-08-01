@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.domain.Token;
 import com.example.domain.Users;
 import com.example.form.UsersForm;
 import com.example.service.UserService;
@@ -84,17 +85,18 @@ public class UserController {
 	 */
 	@RequestMapping("/login")
 	public String toLogin() {
+		userService.deleteInvalidToken();
 		return "todo_login";
 	}
 
 	@RequestMapping("/loginCheck")
 	public String loginCheck(UsersForm form, Model model) throws NoSuchAlgorithmException {
-		Users result = userService.findUser(form);
+		Token result = userService.findUser(form);
 		if (result == null) {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードに誤りがあります");
 			return "todo_login";
 		}
-
+		model.addAttribute("token", result.getToken());
 		return "mypage_top";
 	}
 

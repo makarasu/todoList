@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,10 +25,10 @@ public class Token implements Serializable {
 	private String token;
 
 	@Column(name = "generate_date")
-	private String generateDate;
+	private Date generateDate;
 
 	@Column(name = "update_date")
-	private String updateDate;
+	private Date updateDate;
 
 	@OneToOne
 	@JoinColumn(name = "user_id")
@@ -49,19 +50,19 @@ public class Token implements Serializable {
 		this.token = token;
 	}
 
-	public String getGenerateDate() {
+	public Date getGenerateDate() {
 		return generateDate;
 	}
 
-	public void setGenerateDate(String generateDate) {
+	public void setGenerateDate(Date generateDate) {
 		this.generateDate = generateDate;
 	}
 
-	public String getUpdateDate() {
+	public Date getUpdateDate() {
 		return updateDate;
 	}
 
-	public void setUpdateDate(String updateDate) {
+	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
 

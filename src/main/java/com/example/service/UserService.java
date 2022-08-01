@@ -4,8 +4,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -68,14 +69,18 @@ public class UserService {
 	 * ログイン情報照会
 	 * 
 	 * @return
+	 * @throws NoSuchAlgorithmException
 	 */
-	@Transactional(readOnly = true)
-	public Users findUser(UsersForm form) {
-		Users users = new Users();
-		users.setEmail(form.getEmail());
-		users.setPassword(form.getPassword());
-		users = entityManager.find(Users.class, form.getEmail());
-		return users;
+	@Transactional
+	public Token findUser(UsersForm form) throws NoSuchAlgorithmException {
+		form = changePasswordHash(form);
+		Users users = usersRepository.findByEmailAndPassword(form);
+		if (users == null) {
+			return null;
+		}
+		Token token = insertToken(users);
+
+		return token;
 	}
 
 	/**
@@ -84,16 +89,16 @@ public class UserService {
 	 * @return
 	 */
 	@Transactional
-	public void insertToken(Integer id) {
+	public Token insertToken(Users users) {
 		Token token = new Token();
-		String createToken = createToken(id.toString());
-		Users users = entityManager.find(Users.class, id);
-		String nowDate = generateNowDate();
+		String createToken = createToken();
+		Date nowDate = generateNowDate();
 		token.setUserId(users);
 		token.setToken(createToken);
 		token.setGenerateDate(nowDate);
 		token.setUpdateDate(nowDate);
 		entityManager.persist(token);
+		return token;
 	}
 
 	/**
@@ -102,9 +107,9 @@ public class UserService {
 	@Transactional
 	public Token updateToken(String token) {
 		Token token2 = new Token();
-		String nowDate = generateNowDate();
+		Date nowDate = generateNowDate();
 		token2 = entityManager.find(Token.class, token);
-		String newToken = createToken(token);
+		String newToken = createToken();
 		token2.setToken(newToken);
 		token2.setUpdateDate(nowDate);
 		return token2;
@@ -138,13 +143,12 @@ public class UserService {
 	 * 
 	 * @return
 	 */
-	public String createToken(String word) {
+	public String createToken() {
 		byte token[] = new byte[TPOKEN_LENGTH];
 		StringBuffer buffer = new StringBuffer();
 		SecureRandom random = null;
-
 		try {
-			random = SecureRandom.getInstance(word);
+			random = SecureRandom.getInstance("SHA1PRNG");
 			random.nextBytes(token);
 			for (int i = 0; i < token.length; i++) {
 				buffer.append(String.format("%02x", token[i]));
@@ -156,14 +160,22 @@ public class UserService {
 	}
 
 	/**
+	 * 有効期限切れトークンの削除
+	 */
+	public void deleteInvalidToken() {
+		LocalDateTime localDateTime = LocalDateTime.now();
+		localDateTime = localDateTime.minusMinutes(30);
+		Timestamp timestamp = Timestamp.valueOf(localDateTime);
+		usersRepository.deleteInvalidToken(timestamp);
+	}
+
+	/**
 	 * 現在時刻の取得
 	 * 
 	 * @return
 	 */
-	public String generateNowDate() {
-		LocalDateTime localDateTime = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-		String nowDate = formatter.format(localDateTime);
+	public Date generateNowDate() {
+		Date nowDate = new Date();
 		return nowDate;
 	}
 
@@ -181,5 +193,4 @@ public class UserService {
 		form.setPassword(hashedPassword);
 		return form;
 	}
-
 }
