@@ -55,7 +55,7 @@ public class UserController {
 	public String registrationUser(UsersForm form, Model model) throws NoSuchAlgorithmException {
 		Users result = userService.checkEmail(form);
 		model.addAttribute("registrateUser", form);
-		if (result == null) {
+		if (result != null) {
 			session.setAttribute("error", "このメールアドレスは使用されています。");
 			return "user_registrate";
 		} else {
@@ -65,16 +65,26 @@ public class UserController {
 	}
 
 	/**
-	 * ユーザー登録完了画面表示
+	 * ユーザー登録
 	 * 
 	 * @param form
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	@RequestMapping("/registrationComplete")
-	public String registrationComplete(UsersForm form) throws NoSuchAlgorithmException {
+	@RequestMapping("/registrationCheck")
+	public String registrationCheck(UsersForm form) throws NoSuchAlgorithmException {
 		userService.insertUsers(form);
 		session.removeAttribute("error");
+		return "redirect:/user/registrationComplete";
+	}
+
+	/**
+	 * ユーザー情報の登録完了後に登録完了画面表示
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/registrationComplete")
+	public String registrationComplete() {
 		return "registration_complete";
 	}
 

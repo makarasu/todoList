@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -36,6 +37,8 @@ public class UsersRepository {
 			TypedQuery<Users> query = entityManager.createQuery(jpql, Users.class);
 			query.setParameter("email", form.getEmail());
 			return query.getSingleResult();
+		} catch (NonUniqueResultException e) {
+			return null;
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -84,7 +87,6 @@ public class UsersRepository {
 	 * @param timestamp
 	 */
 	public void deleteInvalidToken(Timestamp timestamp) {
-		System.out.println(timestamp);
 		try {
 			EntityManager entityManager = entityManagerFactory.createEntityManager();
 			entityManager.getTransaction().begin();
