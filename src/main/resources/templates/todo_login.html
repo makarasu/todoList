@@ -14,6 +14,9 @@
 		<input type="password" name="password" th:field="*{password}">
 		<button>ログイン</button>
 	</form>
+	<span>ユーザー登録は</span>
+	<span><a th:href="@{/user/registration}">こちら</a></span>
+	<br>
 	<span>パスワードを忘れた方は</span>
 	<span><a th:href="@{/user/resetPassword}">こちら</a></span>
 
