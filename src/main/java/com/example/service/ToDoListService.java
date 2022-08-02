@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,9 @@ public class ToDoListService {
 
 	@PersistenceContext
 	EntityManager entityManager;
+
+	@Autowired
+	UserService userService;
 
 	/**
 	 * to-doリストの取得 tokenが無効の場合は取得結果を返さない

@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.domain.Token;
 import com.example.domain.Users;
 import com.example.form.UsersForm;
 
@@ -81,6 +82,17 @@ public class UsersRepository {
 		}
 	}
 
+	public Token findByToken(String token, Timestamp timestamp) {
+		try {
+			String jpql = "SELECT t FROM Token t WHERE t.token=:token AND t.updateDate<:checkDate";
+			TypedQuery<Token> query = entityManager.createQuery(jpql, Token.class);
+			query.setParameter("token", token).setParameter("checkDate", timestamp);
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
 	/**
 	 * 有効期限切れのトークンをテーブルから削除する
 	 * 
@@ -92,8 +104,7 @@ public class UsersRepository {
 			entityManager.getTransaction().begin();
 			String jpql = "DELETE FROM Token t WHERE t.updateDate<:checkDate";
 			Query query = entityManager.createQuery(jpql);
-			query.setParameter("checkDate", timestamp);
-			query.executeUpdate();
+			query.setParameter("checkDate", timestamp).executeUpdate();
 			entityManager.getTransaction().commit();
 			entityManager.close();
 		} catch (Exception e) {

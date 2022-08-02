@@ -25,6 +25,9 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	MyPageController myPageController;
+
 	@ModelAttribute
 	public UsersForm usersForm() {
 		return new UsersForm();
@@ -107,7 +110,7 @@ public class UserController {
 			return "todo_login";
 		}
 		model.addAttribute("token", result.getToken());
-		return "mypage_top";
+		return myPageController.index(result.getToken(), model);
 	}
 
 	/**
