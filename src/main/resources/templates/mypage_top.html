@@ -5,6 +5,28 @@
 <title>マイページ</title>
 </head>
 <body>
+	<h2>マイページ</h2>
+	<form th:action="@{/myPage/registrateTodo}">
+		<input type="hidden" th:value="${token}" name="token">
+		<button>todo登録</button>
+	</form>
+	<form th:action="@{/myPage/todo}">
+		<input type="hidden" th:value="${token}" name="token">
+		<button>todoリスト</button>
+	</form>
+	<form th:action="@{/myPage/log}">
+		<input type="hidden" th:value="${token}" name="token">
+		<button>実施済みtodoログ</button>
+	</form>
+	<form th:action="@{/myPage/changePassword}">
+		<input type="hidden" th:value="${token}" name="token">
+		<button>パスワード変更</button>
+	</form>
+	<form th:action="@{/myPage/secession}">
+		<input type="hidden" th:value="${token}" name="token">
+		<button>退会手続き</button>
+	</form>
+	
 
 </body>
 </html>

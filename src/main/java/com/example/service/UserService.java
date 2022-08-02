@@ -105,14 +105,13 @@ public class UserService {
 	 * トークンの更新
 	 */
 	@Transactional
-	public Token updateToken(String token) {
-		Token token2 = new Token();
-		Date nowDate = generateNowDate();
-		token2 = entityManager.find(Token.class, token);
+	public Token updateToken(Token token) {
 		String newToken = createToken();
-		token2.setToken(newToken);
-		token2.setUpdateDate(nowDate);
-		return token2;
+		Timestamp timestamp = generateNowDate();
+		token.setToken(newToken);
+		token.setUpdateDate(timestamp);
+		entityManager.merge(token);
+		return token;
 	}
 
 	// @Transactional(readOnly = true)
@@ -160,23 +159,46 @@ public class UserService {
 	}
 
 	/**
+	 * 受け取ったトークンが有効期限切れかチェックする
+	 * 
+	 * @param token
+	 * @return
+	 */
+	public Token checkToken(String token) {
+		Timestamp timestamp = generateCheckDate();
+		Token result = usersRepository.findByToken(token, timestamp);
+		if (result == null) {
+			return null;
+		} else {
+			return result;
+		}
+	}
+
+	/**
 	 * 有効期限切れトークンの削除
 	 */
 	public void deleteInvalidToken() {
-		LocalDateTime localDateTime = LocalDateTime.now();
-		localDateTime = localDateTime.minusMinutes(30);
-		Timestamp timestamp = Timestamp.valueOf(localDateTime);
+		Timestamp timestamp = generateCheckDate();
 		usersRepository.deleteInvalidToken(timestamp);
 	}
 
 	/**
-	 * 現在時刻の取得
+	 * 現在時刻の30分前の取得 <br>
+	 * ※トークンの有効時間が最終更新から30分のため
 	 * 
 	 * @return
 	 */
-	public Date generateNowDate() {
-		Date nowDate = new Date();
-		return nowDate;
+	public Timestamp generateCheckDate() {
+		LocalDateTime localDateTime = LocalDateTime.now();
+		localDateTime = localDateTime.minusMinutes(30);
+		Timestamp timestamp = Timestamp.valueOf(localDateTime);
+		return timestamp;
+	}
+
+	public Timestamp generateNowDate() {
+		LocalDateTime localDateTime = LocalDateTime.now();
+		Timestamp timestamp = Timestamp.valueOf(localDateTime);
+		return timestamp;
 	}
 
 	/**

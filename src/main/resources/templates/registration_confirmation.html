@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h3>以下の内容で登録します。よろしいですか？</h3>
-	<form th:action="@{/user/registrationComplete}" method="post" th:object="${usersForm}">
+	<form th:action="@{/user/registrationCheck}" method="post" th:object="${usersForm}">
 		<div>ユーザー名</div>
 		<div  th:text="${user.name}"></div>
 		<input type="hidden" th:field="*{name}" name="name">
