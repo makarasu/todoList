@@ -195,6 +195,11 @@ public class UserService {
 		return timestamp;
 	}
 
+	/**
+	 * 現在時刻の取得
+	 * 
+	 * @return
+	 */
 	public Timestamp generateNowDate() {
 		LocalDateTime localDateTime = LocalDateTime.now();
 		Timestamp timestamp = Timestamp.valueOf(localDateTime);

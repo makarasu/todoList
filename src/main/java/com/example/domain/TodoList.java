@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -26,7 +28,7 @@ public class TodoList implements Serializable {
 	private String todo;
 
 	@Column(name = "term")
-	private String term;
+	private Date term;
 
 	@Column(name = "category")
 	private String category;
@@ -37,8 +39,9 @@ public class TodoList implements Serializable {
 	@Column(name = "enforcement")
 	private boolean enforcement;
 
+	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private Users users;
+	private Users userId;
 
 	public Integer getId() {
 		return id;
@@ -64,12 +67,13 @@ public class TodoList implements Serializable {
 		this.todo = todo;
 	}
 
-	public String getTerm() {
+	public Date getTerm() {
 		return term;
 	}
 
 	public void setTerm(String term) {
-		this.term = term;
+		Date dateTerm = Date.valueOf(term);
+		this.term = dateTerm;
 	}
 
 	public String getCategory() {
@@ -96,18 +100,17 @@ public class TodoList implements Serializable {
 		this.enforcement = enforcement;
 	}
 
-	public Users getUsers() {
-		return users;
+	public Users getUserId() {
+		return userId;
 	}
 
-	public void setUsers(Users users) {
-		this.users = users;
+	public void setUserId(Users userId) {
+		this.userId = userId;
 	}
 
 	@Override
 	public String toString() {
 		return "TodoList [id=" + id + ", importance=" + importance + ", todo=" + todo + ", term=" + term + ", category="
-				+ category + ", memo=" + memo + ", enforcement=" + enforcement + ", users=" + users + "]";
+				+ category + ", memo=" + memo + ", enforcement=" + enforcement + ", userId=" + userId + "]";
 	}
-
 }

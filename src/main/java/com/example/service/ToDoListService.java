@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.TodoList;
+import com.example.domain.Token;
+import com.example.form.TodoListForm;
 
 @Service
 public class ToDoListService {
@@ -38,10 +41,20 @@ public class ToDoListService {
 	 * todoリストの追加をする
 	 * 
 	 * @return
+	 * @throws ParseException
 	 */
 	@Transactional
-	public TodoList insertTodo() {
+	public TodoList insertTodo(TodoListForm form, String token) throws ParseException {
+		Token result = userService.checkToken(token);
 		TodoList todoList = new TodoList();
+		todoList.setImportance(form.getImportance());
+		todoList.setTodo(form.getTodo());
+		todoList.setTerm(form.getTerm());
+		todoList.setCategory(form.getCategory());
+		todoList.setMemo(form.getMemo());
+		todoList.setEnforcement(false);
+		todoList.setUserId(result.getUserId());
+		entityManager.persist(todoList);
 		return todoList;
 	}
 

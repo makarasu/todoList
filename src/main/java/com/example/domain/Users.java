@@ -1,15 +1,12 @@
 package com.example.domain;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -39,9 +36,6 @@ public class Users implements Serializable {
 
 	@Column(name = "secret_answer3")
 	private String secretAnswer3;
-
-	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-	private List<TodoList> todoLists;
 
 	public Integer getId() {
 		return id;
@@ -99,19 +93,10 @@ public class Users implements Serializable {
 		this.secretAnswer3 = secretAnswer3;
 	}
 
-	public List<TodoList> getTodoLists() {
-		return todoLists;
-	}
-
-	public void setTodoLists(List<TodoList> todoLists) {
-		this.todoLists = todoLists;
-	}
-
 	@Override
 	public String toString() {
 		return "Users [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", secretAnswer1="
-				+ secretAnswer1 + ", secretAnswer2=" + secretAnswer2 + ", secretAnswer3=" + secretAnswer3
-				+ ", todoLists=" + todoLists + "]";
+				+ secretAnswer1 + ", secretAnswer2=" + secretAnswer2 + ", secretAnswer3=" + secretAnswer3 + "]";
 	}
 
 }

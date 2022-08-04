@@ -83,8 +83,10 @@ public class UsersRepository {
 	}
 
 	public Token findByToken(String token, Timestamp timestamp) {
+		System.out.println("token:" + token);
+		System.out.println("time:" + timestamp);
 		try {
-			String jpql = "SELECT t FROM Token t WHERE t.token=:token AND t.updateDate<:checkDate";
+			String jpql = "SELECT t FROM Token t WHERE t.token=:token AND t.updateDate>=:checkDate";
 			TypedQuery<Token> query = entityManager.createQuery(jpql, Token.class);
 			query.setParameter("token", token).setParameter("checkDate", timestamp);
 			return query.getSingleResult();
