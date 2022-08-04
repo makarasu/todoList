@@ -43,19 +43,4 @@ public class ToDoListController {
 			return "redirect:/todoList/login";
 		}
 	}
-
-	/**
-	 * やることリスト登録
-	 * 
-	 * @return
-	 */
-	@RequestMapping("/registration")
-	public String registration(String token, Model model) {
-		if (token.isEmpty()) {
-			return "redirect:/todoList/login";
-		}
-
-		return "registration_todo";
-	}
-
 }
