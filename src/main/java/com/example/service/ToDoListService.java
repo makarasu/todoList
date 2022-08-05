@@ -28,14 +28,14 @@ public class ToDoListService {
 	TodoListRepository todoListRepository;
 
 	/**
-	 * to-doリストの取得 tokenが無効の場合は取得結果を返さない
+	 * to-doリストの取得
 	 * 
 	 * @param token
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public List<TodoList> findList(String token) {
-		List<TodoList> todoLists = todoListRepository.findByIdTodo(token);
+	public List<TodoList> findList(String token, boolean enforcement) {
+		List<TodoList> todoLists = todoListRepository.findByIdTodo(token, enforcement);
 		return todoLists;
 	}
 
