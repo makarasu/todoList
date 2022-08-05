@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.domain.TodoList;
 import com.example.domain.Token;
 import com.example.form.TodoListForm;
+import com.example.repository.TodoListRepository;
 
 @Service
 public class ToDoListService {
@@ -23,18 +24,19 @@ public class ToDoListService {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	TodoListRepository todoListRepository;
+
 	/**
 	 * to-doリストの取得 tokenが無効の場合は取得結果を返さない
 	 * 
 	 * @param token
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<TodoList> findList(String token) {
-		List<TodoList> todoLists = (List<TodoList>) entityManager.find(TodoList.class, token);
+		List<TodoList> todoLists = todoListRepository.findByIdTodo(token);
 		return todoLists;
-
 	}
 
 	/**
