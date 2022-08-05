@@ -21,15 +21,14 @@ public class TodoListRepository {
 	@Autowired
 	EntityManagerFactory entityManagerFactory;
 
-	public List<TodoList> findByIdTodo(String token) {
+	public List<TodoList> findByIdTodo(String token, boolean enforcement) {
 		try {
-			String jpql = "SELECT l FROM TodoList l ,Token t WHERE l.userId=t.userId AND t.token=:token";
+			String jpql = "SELECT l FROM TodoList l ,Token t WHERE l.userId=t.userId AND t.token=:token AND l.enforcement=:enforcement";
 			TypedQuery<TodoList> query = eniEntityManager.createQuery(jpql, TodoList.class);
-			query.setParameter("token", token);
+			query.setParameter("token", token).setParameter("enforcement", enforcement);
 			return query.getResultList();
 		} catch (Exception e) {
 			return null;
 		}
 	}
-
 }
