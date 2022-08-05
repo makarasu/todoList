@@ -23,6 +23,9 @@ public class ToDoListController {
 	@Autowired
 	ToDoListService toDoListService;
 
+	@Autowired
+	MyPageController myPageController;
+
 	/**
 	 * やることリストを表示 <br>
 	 * トークンがない、またはトークンが有効期限切れの場合はログイン画面を表示する
@@ -31,16 +34,11 @@ public class ToDoListController {
 	 */
 	@RequestMapping("/list")
 	public String index(String token, Model model) {
-		if (token.isEmpty()) {
-			return "redirect:/todoList/login";
-		}
-		try {
-			List<TodoList> todoLists = toDoListService.findList(token);
-			model.addAttribute("todoList", todoLists);
-			return "todoList";
-		} catch (NullPointerException e) {
-			model.addAttribute("errorMessage", "もう一度ログインしてください。");
-			return "redirect:/todoList/login";
-		}
+		String view = "todoList";
+		view = myPageController.checkToken(token, view, model);
+		token = model.getAttribute("token").toString();
+		List<TodoList> todoLists = toDoListService.findList(token);
+		model.addAttribute("todoList", todoLists);
+		return view;
 	}
 }
