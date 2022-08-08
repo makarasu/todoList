@@ -82,6 +82,13 @@ public class UsersRepository {
 		}
 	}
 
+	/**
+	 * 渡されたトークンが有効期限内か
+	 * 
+	 * @param token
+	 * @param timestamp
+	 * @return
+	 */
 	public Token findByToken(String token, Timestamp timestamp) {
 		System.out.println("token:" + token);
 		System.out.println("time:" + timestamp);

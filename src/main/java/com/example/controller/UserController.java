@@ -102,6 +102,14 @@ public class UserController {
 		return "todo_login";
 	}
 
+	/**
+	 * 入力されたメールアドレスとパスワードが一致するか確認
+	 * 
+	 * @param form
+	 * @param model
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
 	@RequestMapping("/loginCheck")
 	public String loginCheck(UsersForm form, Model model) throws NoSuchAlgorithmException {
 		Token result = userService.findUser(form);
