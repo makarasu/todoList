@@ -5,20 +5,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>ログイン画面</h2>
-	<div th:text="${errorMessage}"></div>
+	<h2 id="title">ログイン画面</h2>
+	<div th:text="${errorMessage}" style="color: red"></div>
 	<form th:action="@{/user/loginCheck}" method="post" th:object="${usersForm}">
-		<div>メールアドレス</div>
-		<input type="email" name="email" th:field="*{email}">
-		<div>パスワード</div>
-		<input type="password" name="password" th:field="*{password}">
-		<button>ログイン</button>
+		<div id="title">メールアドレス</div>
+		<input type="email" name="email" th:field="*{email}" id="email" class="form">
+		<div id="title">パスワード</div>
+		<input type="password" name="password" th:field="*{password}" id="password" class="form">
+		<button id="button">ログイン</button>
 	</form>
-	<span>ユーザー登録は</span>
-	<span><a th:href="@{/user/registration}">こちら</a></span>
+	<span id="title">ユーザー登録は</span>
+	<span id="link"><a th:href="@{/user/registration}">こちら</a></span>
 	<br>
-	<span>パスワードを忘れた方は</span>
-	<span><a th:href="@{/user/resetPassword}">こちら</a></span>
+	<span id="title">パスワードを忘れた方は</span>
+	<span id="link"><a th:href="@{/user/resetPassword}">こちら</a></span>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 </html>

@@ -68,6 +68,26 @@ public class UserController {
 	}
 
 	/**
+	 * ユーザー登録フォームのリセットを行う
+	 * 
+	 * @param form
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/registrationReset")
+	public String registrationReset(UsersForm form, Model model) {
+		form.setId(null);
+		form.setName(null);
+		form.setEmail(null);
+		form.setPassword(null);
+		form.setSecretAnswer1(null);
+		form.setSecretAnswer2(null);
+		form.setSecretAnswer3(null);
+		session.removeAttribute("error");
+		return "user_registrate";
+	}
+
+	/**
 	 * ユーザー登録
 	 * 
 	 * @param form
