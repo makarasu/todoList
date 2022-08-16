@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>to-do登録</title>
+<link rel="stylesheet" th:href="@{../css/common.css}" />
 </head>
 <body>
+	<header th:insert="todoList :: frag_header"></header>
 	<form th:action="@{/todoList/add}" method="post">
 		<div>重要度</div>
 		<select name="importance">
@@ -26,8 +28,8 @@
 		<div>備考・メモ</div>
 		<textarea rows="4" cols="50" name="memo"></textarea>
 		<input type="hidden" th:value="${users.id}">
-		<button>登録</button>
-		<button type="reset">リセット</button>
+		<button class="button">登録</button>
+		<button type="reset" class="button">リセット</button>
 	</form>
 
 </body>

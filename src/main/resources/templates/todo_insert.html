@@ -2,12 +2,14 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>to-do登録</title>
+<link rel="stylesheet" th:href="@{../css/common.css}" />
 </head>
 <body>
+	<header th:insert="todoList :: frag_header"></header>
 	<h2>todo登録</h2>
 	<form th:action="@{/myPage/insertTodo}" th:object="${todoListForm}" method="post">
-		<span>重要度:</span>
+		<div>【重要度】</div>
 		<input type="radio" th:value="1" th:field="*{importance}">
 		<span>低</span>
 		<input type="radio" th:value="2" th:field="*{importance}">
@@ -15,13 +17,13 @@
 		<input type="radio" th:value="3" th:field="*{importance}">
 		<span>高</span>
 		<br>
-		<span>todo:</span>
+		<div>【todo】</div>
 		<input type="text" th:field="*{todo}">
 		<br>
-		<span>期限:</span>
+		<div>【期限】</div>
 		<input type="date" th:field="*{term}">
 		<br>
-		<span>カテゴリ</span>
+		<div>【カテゴリ】</div>
 		<input type="radio" th:value="1" th:field="*{category}">
 		<span>仕事</span>
 		<input type="radio" th:value="2" th:field="*{category}">
@@ -31,12 +33,12 @@
 		<input type="radio" th:value="4" th:field="*{category}">
 		<span>その他</span>
 		<br>
-		<span>備考・メモ:</span>
-		<textarea rows="4" cols="50" th:field="*{memo}"></textarea>
+		<div>【備考・メモ】</div>
+		<textarea rows="10" cols="30" th:field="*{memo}"></textarea>
 		<br>
 		<input type="hidden" th:value="${token}" name="token">
-		<button>登録</button>
-		<button type="reset">リセット</button>
+		<button class="button">登録</button>
+		<button type="reset" class="button">リセット</button>
 	</form>
 
 </body>

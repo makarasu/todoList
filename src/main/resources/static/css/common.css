@@ -1,0 +1,70 @@
+@charset "UTF-8";
+
+*{
+	box-sizing: border-box;
+}
+#hidden{
+	display: none;
+}
+body{
+	margin: 0;
+	padding: 100px 0 1000px 0;
+	text-align: center;
+	background-color: #FFFAFA;
+	height: 100px;
+}
+
+form{
+	line-height: 180%;
+	padding: 20px;
+	background-color: #FFFACD;
+	height: auto;
+	width: 45%;
+	margin: auto;
+	border-left: solid 6px #5bb7ae;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.33);
+}
+header{
+	position: fixed; /* ヘッダーを固定する */
+	top: 0; /* 上部から配置の基準位置を決める */
+	left: 0; /* 左から配置の基準位置を決める */
+	width: 100%; /* ヘッダーの横幅を指定する */
+	height: 100px; /* ヘッダーの高さを指定する */
+	padding: 10px; /* ヘッダーの余白を指定する(上下左右) */
+	background-color: #FFFF77; /* ヘッダーの背景色を指定する */
+	color: #000000; /* フォントの色を指定する */
+	display:inline-flex;
+	padding: 10px;
+}
+
+a{
+	text-decoration: none;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background: #668ad8;/*ボタン色*/
+  color: #FFF;
+  border-bottom: solid 4px #627295;
+  border-radius: 10px;
+}
+.button:active {
+  /*ボタンを押したとき*/
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);/*下に動く*/
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);/*影を小さく*/
+  border-bottom: none;
+}
+table{
+line-height: 180%;
+	padding: 20px;
+	background-color: #FFFACD;
+	height: auto;
+	width: 80%;
+	margin: auto;
+	border-left: solid 6px #5bb7ae;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.33);
+}
+

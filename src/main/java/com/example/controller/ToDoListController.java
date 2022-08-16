@@ -40,7 +40,7 @@ public class ToDoListController {
 	}
 
 	/**
-	 * やることリストを表示 <br>
+	 * to-doリストを表示 <br>
 	 * トークンがない、またはトークンが有効期限切れの場合はログイン画面を表示する
 	 * 
 	 * @return

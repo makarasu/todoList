@@ -2,13 +2,14 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ユーザー登録完了</title>
+<link rel="stylesheet" th:href="@{../css/common.css}" />
 </head>
 <body>
 <h3>登録完了しました！</h3>
 <span>ご利用ありがとうございます！</span>
 <form th:action="@{/user/login}">
-	<button>ログイン</button>
+	<button class="button">ログイン</button>
 </form>
 
 
