@@ -3,28 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <title>マイページ</title>
+<link rel="stylesheet" th:href="@{../css/common.css}" />
 </head>
 <body>
 	<h2>マイページ</h2>
 	<form th:action="@{/myPage/registrateTodo}">
 		<input type="hidden" th:value="${token}" name="token">
-		<button>todo登録</button>
+		<button class="button">todo登録</button>
 	</form>
 	<form th:action="@{/todoList/list}">
 		<input type="hidden" th:value="${token}" name="token">
-		<button>todoリスト</button>
+		<button class="button">todoリスト</button>
 	</form>
 	<form th:action="@{/myPage/log}">
 		<input type="hidden" th:value="${token}" name="token">
-		<button>実施済みtodoログ</button>
+		<button class="button">実施済みtodoログ</button>
 	</form>
 	<form th:action="@{/myPage/changePassword}">
 		<input type="hidden" th:value="${token}" name="token">
-		<button>パスワード変更</button>
+		<button class="button">パスワード変更</button>
 	</form>
 	<form th:action="@{/myPage/secession}">
 		<input type="hidden" th:value="${token}" name="token">
-		<button>退会手続き</button>
+		<button class="button">退会手続き</button>
 	</form>
 	
 

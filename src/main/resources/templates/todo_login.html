@@ -2,18 +2,20 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ログイン画面</title>
+<link rel="stylesheet" th:href="@{../css/common.css}" />
 </head>
 <body>
-	<h2 id="title">ログイン画面</h2>
+	<h2 id="title">to-doリスト管理サイト</h2>
 	<div th:text="${errorMessage}" style="color: red"></div>
 	<form th:action="@{/user/loginCheck}" method="post" th:object="${usersForm}">
 		<div id="title">メールアドレス</div>
 		<input type="email" name="email" th:field="*{email}" id="email" class="form">
 		<div id="title">パスワード</div>
-		<input type="password" name="password" th:field="*{password}" id="password" class="form">
-		<button id="button">ログイン</button>
+		<input type="password" name="password" th:field="*{password}" id="password" class="form"> <br> <br>
+		<button class="button">ログイン</button>
 	</form>
+	<br>
 	<span id="title">ユーザー登録は</span>
 	<span id="link"><a th:href="@{/user/registration}">こちら</a></span>
 	<br>

@@ -2,9 +2,11 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>to-doログ</title>
+<link rel="stylesheet" th:href="@{../css/common.css}" />
 </head>
 <body>
+	<header th:insert="todoList :: frag_header"></header>
 	<h1>todoListLog</h1>
 	<span class="hidden" th:value="${token}"></span>
 	<table border="1">

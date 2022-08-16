@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>ユーザー登録情報確認</title>
+<link rel="stylesheet" th:href="@{../css/common.css}" />
 </head>
 <body>
 	<h3>以下の内容で登録します。よろしいですか？</h3>
@@ -25,9 +26,9 @@
 		<div>秘密の質問3の答え</div>
 		<div th:text="${user.secretAnswer3}"></div>
 		<input type="hidden" th:field="*{secretAnswer3}" name="secretAnswer3">
-		<button>登録</button>
+		<button class="button">登録</button>
 	</form>
-		<button type="button" onclick=history.back()>修正</button>
+		<button type="button" onclick=history.back() class="button">修正</button>
 
 
 </body>

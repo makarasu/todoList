@@ -2,9 +2,28 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>todoList</title>
+<title>to-doList</title>
+<link rel="stylesheet" th:href="@{../css/common.css}" />
 </head>
 <body>
+	<header th:fragment="frag_header">
+		<form th:action="@{/myPage/top}">
+			<input type="hidden" th:value="${token}" name="token">
+			<button class="button">トップ</button>
+		</form>
+		<form th:action="@{/todoList/list}">
+			<input type="hidden" th:value="${token}" name="token">
+			<button class="button">to-doリスト</button>
+		</form>
+		<form th:action="@{/myPage/registrateTodo}">
+			<input type="hidden" th:value="${token}" name="token">
+			<button class="button">to-do追加</button>
+		</form>
+		<form th:action="@{/myPage/log}">
+			<input type="hidden" th:value="${token}" name="token">
+			<button class="button">to-doログ</button>
+		</form>
+	</header>
 	<h1>todoList</h1>
 	<span class="hidden" th:value="${token}"></span>
 	<table border="1">
