@@ -9,6 +9,7 @@
 	<header th:insert="todoList :: frag_header"></header>
 	<h2>todo登録</h2>
 	<form th:action="@{/myPage/insertTodo}" th:object="${todoListForm}" method="post">
+		<div th:errors ="*{importance}" style="color: red"></div>
 		<div>【重要度】</div>
 		<input type="radio" th:value="1" th:field="*{importance}">
 		<span>低</span>
@@ -17,12 +18,15 @@
 		<input type="radio" th:value="3" th:field="*{importance}">
 		<span>高</span>
 		<br>
+		<div th:errors="*{todo}" style="color: red"></div>
 		<div>【todo】</div>
 		<input type="text" th:field="*{todo}">
 		<br>
+		<div th:errors="*{term}" style="color: red"></div>
 		<div>【期限】</div>
 		<input type="date" th:field="*{term}">
 		<br>
+		<div th:errors="*{category}" style="color: red"></div>
 		<div>【カテゴリ】</div>
 		<input type="radio" th:value="1" th:field="*{category}">
 		<span>仕事</span>
