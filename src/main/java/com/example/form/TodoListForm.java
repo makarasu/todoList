@@ -1,11 +1,18 @@
 package com.example.form;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 public class TodoListForm {
 
 	private Integer id;
-	private Integer importance;
+	@NotBlank(message = "重要度を選択してください")
+	private String importance;
+	@NotBlank(message = "to-doを入力してください")
 	private String todo;
+	@Pattern(regexp = "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$", message = "実施期限を入力してください")
 	private String term;
+	@NotBlank(message = "カテゴリを選択してください")
 	private String category;
 	private String memo;
 	private boolean enforcement;
@@ -19,11 +26,11 @@ public class TodoListForm {
 		this.id = id;
 	}
 
-	public Integer getImportance() {
+	public String getImportance() {
 		return importance;
 	}
 
-	public void setImportance(Integer importance) {
+	public void setImportance(String importance) {
 		this.importance = importance;
 	}
 

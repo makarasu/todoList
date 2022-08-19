@@ -49,7 +49,7 @@ public class ToDoListService {
 	public TodoList insertTodo(TodoListForm form, String token) throws ParseException {
 		Token result = userService.checkToken(token);
 		TodoList todoList = new TodoList();
-		todoList.setImportance(form.getImportance());
+		todoList.setImportance(Integer.valueOf(form.getImportance()));
 		todoList.setTodo(form.getTodo());
 		todoList.setTerm(form.getTerm());
 		todoList.setCategory(form.getCategory());
@@ -66,8 +66,11 @@ public class ToDoListService {
 	 * @return
 	 */
 	@Transactional
-	public void updateTodo() {
-
+	public void updateTodo(String token, Integer enforcement) {
+		TodoList todoList = entityManager.find(TodoList.class, enforcement);
+		// todoList.setId(enforcement);
+		todoList.setEnforcement(true);
+		entityManager.merge(todoList);
 	}
 
 	/**

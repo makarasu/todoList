@@ -1,12 +1,15 @@
 package com.example.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.domain.TodoList;
 import com.example.form.TodoListForm;
@@ -56,5 +59,19 @@ public class ToDoListController {
 			model.addAttribute("todoList", todoLists);
 		}
 		return view;
+	}
+
+	@ResponseBody
+	@RequestMapping("/done")
+	public Map<String, String> done(String token, Integer enforcement, Model model) {
+		String view = "todoList";
+		view = myPageController.checkToken(token, view, model);
+		Map<String, String> map = new HashMap<>();
+		if (view.equals("todoList")) {
+			token = model.getAttribute("token").toString();
+			toDoListService.updateTodo(token, enforcement);
+			map.put("token", token);
+		}
+		return map;
 	}
 }
