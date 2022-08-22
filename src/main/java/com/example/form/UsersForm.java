@@ -1,16 +1,29 @@
 package com.example.form;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 public class UsersForm {
 
 	private Integer id;
+
+	@NotBlank(message = "ユーザー名を入力してください")
 	private String name;
-	@Email
+
+	@Email(message = "不正な入力です")
+	@NotBlank(message = "メールアドレスを入力してください")
 	private String email;
+
+	@NotBlank(message = "パスワードを入力してください")
 	private String password;
+
+	@NotBlank(message = "質問1に回答してください")
 	private String secretAnswer1;
+
+	@NotBlank(message = "質問2に回答してください")
 	private String secretAnswer2;
+
+	@NotBlank(message = "質問3に回答してください")
 	private String secretAnswer3;
 
 	public Integer getId() {
