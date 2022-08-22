@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>退会手続き</title>
+<link rel="stylesheet" th:href="@{../css/common.css}" />
+</head>
+<body>
+	<h2>退会手続き</h2>
+	<div>退会手続きを行います。一度退会するとアカウントを復活させることが出来ません。</div>
+	<div th:text=${error} style="color: red">パスワード不一致</div>
+	<form th:action="@{/myPage/secessionComplete}" th:object="${usersForm}" method="post">
+		<input type="hidden" th:value="${token}" name="token">
+		<div>パスワードを入力してください</div>
+		<input type="password" name="password" th:field="*{password}">
+		<button id="button">退会</button>
+	</form>
+
+</body>
+</html>

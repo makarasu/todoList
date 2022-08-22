@@ -90,8 +90,6 @@ public class UsersRepository {
 	 * @return
 	 */
 	public Token findByToken(String token, Timestamp timestamp) {
-		System.out.println("token:" + token);
-		System.out.println("time:" + timestamp);
 		try {
 			String jpql = "SELECT t FROM Token t WHERE t.token=:token AND t.updateDate>=:checkDate";
 			TypedQuery<Token> query = entityManager.createQuery(jpql, Token.class);
@@ -118,6 +116,18 @@ public class UsersRepository {
 			entityManager.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public Users findByToken(String token) {
+		try {
+			String jpql = "SELECT u FROM Users u, Token t WHERE t.token=:token AND u.id=t.userId";
+			TypedQuery<Users> query = entityManager.createQuery(jpql, Users.class);
+			query.setParameter("token", token);
+			return query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

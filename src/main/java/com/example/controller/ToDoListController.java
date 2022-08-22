@@ -61,6 +61,14 @@ public class ToDoListController {
 		return view;
 	}
 
+	/**
+	 * 実施済みto-doの処理
+	 * 
+	 * @param token
+	 * @param enforcement
+	 * @param model
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("/done")
 	public Map<String, String> done(String token, Integer enforcement, Model model) {
