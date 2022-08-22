@@ -68,7 +68,6 @@ public class ToDoListService {
 	@Transactional
 	public void updateTodo(String token, Integer enforcement) {
 		TodoList todoList = entityManager.find(TodoList.class, enforcement);
-		// todoList.setId(enforcement);
 		todoList.setEnforcement(true);
 		entityManager.merge(todoList);
 	}

@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.domain.DeletedUser;
 import com.example.domain.TodoList;
 import com.example.domain.Token;
 import com.example.domain.Users;
@@ -163,8 +164,38 @@ public class MyPageController {
 	 * @return
 	 */
 	@RequestMapping("/secession")
-	public String secession() {
-		return null;
+	public String secession(String token, Model model) {
+		String view = "user_secession";
+		view = checkToken(token, view, model);
+		return view;
+	}
+
+	/**
+	 * 退会手続き処理
+	 * 
+	 * @param form
+	 * @param token
+	 * @param model
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	@RequestMapping("/secessionComplete")
+	public String secessionComplete(UsersForm form, String token, Model model) throws NoSuchAlgorithmException {
+		String view = "secession_complete";
+		view = checkToken(token, view, model);
+		if (view.equals("secession_complete")) {
+			if (form.getPassword().equals("")) {
+				model.addAttribute("error", "パスワードを入力してください");
+				return "user_secession";
+			}
+			token = model.getAttribute("token").toString();
+			DeletedUser deletedUser = userService.secessionUser(form, token);
+			if (deletedUser == null) {
+				model.addAttribute("error", "パスワードが一致しません");
+				return "user_secession";
+			}
+		}
+		return view;
 	}
 
 	/**

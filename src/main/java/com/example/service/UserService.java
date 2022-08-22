@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.domain.DeletedUser;
 import com.example.domain.Token;
 import com.example.domain.Users;
 import com.example.form.UsersForm;
@@ -81,6 +82,34 @@ public class UserService {
 		Token token = insertToken(users);
 
 		return token;
+	}
+
+	/**
+	 * ユーザーの退会処理
+	 * 
+	 * @param form
+	 * @param token
+	 * @throws NoSuchAlgorithmException
+	 */
+	@Transactional
+	public DeletedUser secessionUser(UsersForm form, String token) throws NoSuchAlgorithmException {
+		form = changePasswordHash(form);
+		Users selectedUser = usersRepository.findByToken(token);
+		if (!(selectedUser.getPassword().equals(form.getPassword()))) {
+			return null;
+		}
+		Timestamp timestamp = generateNowDate();
+		DeletedUser deletedUser = new DeletedUser();
+		deletedUser.setUserId(selectedUser);
+		deletedUser.setUserName(selectedUser.getName());
+		deletedUser.setEmail(selectedUser.getEmail());
+		deletedUser.setSecretAnswer1(selectedUser.getSecretAnswer1());
+		deletedUser.setSecretAnswer2(selectedUser.getSecretAnswer2());
+		deletedUser.setSecretAnswer3(selectedUser.getSecretAnswer3());
+		deletedUser.setSecessionDate(timestamp);
+		entityManager.persist(deletedUser);
+		entityManager.remove(selectedUser);
+		return deletedUser;
 	}
 
 	/**
