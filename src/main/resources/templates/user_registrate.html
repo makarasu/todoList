@@ -7,10 +7,14 @@
 </head>
 <body>
 	<h2>ユーザー登録</h2>
+	<div>下記登録情報を入力してください。</div>
+	<div>※パスワードと確認用パスワードが未入力または不一致の場合、登録ボタンは機能しません。</div>
 	<div th:text="${session.error}" style="color: red"></div>
 	<form th:action="@{/user/registrationConfirmation}" method="post" th:object="${usersForm}" id="usersForm">
+		<div th:errors="*{name}" style="color: red"></div>
 		<div>ユーザー名</div>
 		<input type="text" th:field="*{name}" name="name" id="name"> <br>
+		<div th:errors="*{email}" style="color: red"></div>
 		<div>メールアドレス</div>
 		<input type="email" th:field="*{email}" name="email" id="email"> <br>
 		<div id="noMatchPassword" style="color: red"></div>
@@ -21,11 +25,14 @@
 		<br>
 		<div>以下の質問は、パスワードを忘れた際に使用します。</div>
 		<br>
-		<div>好きな映画のタイトルは？</div>
+		<div th:errors="*{secretAnswer1}" style="color: red"></div>
+		<div>質問1：好きな映画のタイトルは？</div>
 		<input type="text" th:field="*{secretAnswer1}" name="secretAnswer1" id="secretAnswer1"> <br>
-		<div>子どものころに読んでいた本のタイトルは？</div>
+		<div th:errors="*{secretAnswer2}" style="color: red"></div>
+		<div>質問2：子どものころに読んでいた本のタイトルは？</div>
 		<input type="text" th:field="*{secretAnswer2}" name="secretAnswer2" id="secretAnswer2"> <br>
-		<div>好きな食べ物は？</div>
+		<div th:errors="*{secretAnswer3}" style="color: red"></div>
+		<div>質問3：好きな食べ物は？</div>
 		<input type="text" th:field="*{secretAnswer3}" name="secretAnswer3" id="secretAnswer3"> <br>
 		<button id="submit" class="button">確認</button>
 	</form>

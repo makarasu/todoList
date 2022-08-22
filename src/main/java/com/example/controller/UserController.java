@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -55,10 +57,14 @@ public class UserController {
 	 * @throws NoSuchAlgorithmException
 	 */
 	@RequestMapping("/registrationConfirmation")
-	public String registrationUser(UsersForm form, Model model) throws NoSuchAlgorithmException {
-		Users result = userService.checkEmail(form);
+	public String registrationUser(@Validated UsersForm form, BindingResult result, Model model)
+			throws NoSuchAlgorithmException {
+		if (result.hasErrors()) {
+			return "user_registrate";
+		}
+		Users results = userService.checkEmail(form);
 		model.addAttribute("registrateUser", form);
-		if (result != null) {
+		if (results != null) {
 			session.setAttribute("error", "このメールアドレスは使用されています。");
 			return "user_registrate";
 		} else {

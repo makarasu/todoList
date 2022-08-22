@@ -148,9 +148,14 @@ public class MyPageController {
 	 * @throws NoSuchAlgorithmException
 	 */
 	@RequestMapping("/changePasswordComplete")
-	public String changePasswordComplete(String token, UsersForm form, Model model) throws NoSuchAlgorithmException {
+	public String changePasswordComplete(String token, UsersForm form, BindingResult result, Model model)
+			throws NoSuchAlgorithmException {
 		String view = "mypage_top";
 		view = checkToken(token, view, model);
+		if (form.getPassword().equals("") || form.getPassword() == null) {
+			model.addAttribute("error", "パスワードを入力してください");
+			return "changePasswordFromMypage";
+		}
 		if (view.equals("mypage_top")) {
 			token = (String) model.getAttribute("token");
 			userService.updatePassword(form);

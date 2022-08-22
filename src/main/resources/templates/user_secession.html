@@ -6,6 +6,7 @@
 <link rel="stylesheet" th:href="@{../css/common.css}" />
 </head>
 <body>
+	<header th:insert="todoList :: frag_header"></header>
 	<h2>退会手続き</h2>
 	<div>退会手続きを行います。一度退会するとアカウントを復活させることが出来ません。</div>
 	<div th:text=${error} style="color: red">パスワード不一致</div>
