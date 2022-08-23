@@ -11,39 +11,45 @@
 	<form th:action="@{/myPage/insertTodo}" th:object="${todoListForm}" method="post">
 		<div th:errors ="*{importance}" style="color: red"></div>
 		<div>【重要度】</div>
-		<input type="radio" th:value="1" th:field="*{importance}">
-		<span>低</span>
-		<input type="radio" th:value="2" th:field="*{importance}">
-		<span>中</span>
-		<input type="radio" th:value="3" th:field="*{importance}">
-		<span>高</span>
-		<br>
+		<span id="importance">
+			<input type="radio" th:value="1" th:field="*{importance}" class="radio" id="low">
+			<label for="low" class="radio1">低</label>
+			<input type="radio" th:value="2" th:field="*{importance}" class="radio" id="middle">
+			<label for="middle" class="radio1">中</label>
+			<input type="radio" th:value="3" th:field="*{importance}" class="radio" id="high">
+			<label for="high" class="radio1">高</label>
+		</span>
+		<br> <br> <br>
 		<div th:errors="*{todo}" style="color: red"></div>
 		<div>【todo】</div>
-		<input type="text" th:field="*{todo}">
+			<input type="text" th:field="*{todo}">
 		<br>
 		<div th:errors="*{term}" style="color: red"></div>
 		<div>【期限】</div>
-		<input type="date" th:field="*{term}">
+			<input type="date" th:field="*{term}">
 		<br>
 		<div th:errors="*{category}" style="color: red"></div>
 		<div>【カテゴリ】</div>
-		<input type="radio" th:value="1" th:field="*{category}">
-		<span>仕事</span>
-		<input type="radio" th:value="2" th:field="*{category}">
-		<span>日課</span>
-		<input type="radio" th:value="3" th:field="*{category}">
-		<span>緊急</span>
-		<input type="radio" th:value="4" th:field="*{category}">
-		<span>その他</span>
-		<br>
+			<input type="radio" th:value="1" th:field="*{category}" class="radio" id="job">
+			<label for="job" class="radio2">仕事</label>
+			<input type="radio" th:value="2" th:field="*{category}" class="radio" id="daily">
+			<label for="daily" class="radio2">日課</label>
+			<input type="radio" th:value="3" th:field="*{category}" class="radio" id="emergency">
+			<label for="emergency" class="radio2">緊急</label>
+			<input type="radio" th:value="4" th:field="*{category}" class="radio" id="other">
+			<label for="other" class="radio2">その他</label>
+		<br> <br>
 		<div>【備考・メモ】</div>
-		<textarea rows="10" cols="30" th:field="*{memo}"></textarea>
+			<textarea rows="10" cols="30" th:field="*{memo}"></textarea>
 		<br>
 		<input type="hidden" th:value="${token}" name="token">
 		<button class="button">登録</button>
 		<button type="reset" class="button">リセット</button>
 	</form>
-
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{/js/common.js}"></script>
+	<script th:src="@{/js/todolist.js}"></script>
 </body>
 </html>

@@ -6,12 +6,14 @@
 #hidden{
 	display: none;
 }
-body{
+body,html{
 	margin: 0;
 	padding: 100px 0 1000px 0;
 	text-align: center;
 	background-color: #FFFAFA;
 	height: 100px;
+	height: 100%;
+  	font-family: 'Lato', sans-serif;
 }
 
 form{
@@ -41,14 +43,104 @@ a{
 	text-decoration: none;
 }
 
+input[type="text"] {
+  width: 100%;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  margin: 8px 0;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+input[type="text"]:focus {
+  border-color: dodgerBlue;
+  box-shadow: 0 0 8px 0 dodgerBlue;
+}
+
+input[type="date"] {
+  width: 40%;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  margin: 8px 0;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+input[type="date"]:focus {
+  border-color: dodgerBlue;
+  box-shadow: 0 0 8px 0 dodgerBlue;
+}
+
+input[type=radio] {
+display: none; 
+}
+input[type="radio"]:checked + label {
+background: #31A9EE;/* マウス選択時の背景色を指定する */
+color: #ffffff; /* マウス選択時のフォント色を指定する */
+}
+.radio2{
+display: block; /* ブロックレベル要素化する */
+float: left; /* 要素の左寄せ・回り込を指定する */
+margin: 5px; /* ボックス外側の余白を指定する */
+width: 22%; /* ボックスの横幅を指定する */
+height: 45px; /* ボックスの高さを指定する */
+padding-left: 5px; /* ボックス内左側の余白を指定する */
+padding-right: 5px; /* ボックス内御右側の余白を指定する */
+color: #000000; /* フォントの色を指定 */
+text-align: center; /* テキストのセンタリングを指定する */
+line-height: 45px; /* 行の高さを指定する */
+cursor: pointer; /* マウスカーソルの形（リンクカーソル）を指定する */
+border: 2px solid #006DD9;/* ボックスの境界線を実線で指定する */
+border-radius: 5px; /* 角丸を指定する */
+}
+.radio1{
+display: block; /* ブロックレベル要素化する */
+float: left; /* 要素の左寄せ・回り込を指定する */
+margin: 5px; /* ボックス外側の余白を指定する */
+width: 30%; /* ボックスの横幅を指定する */
+height: 45px; /* ボックスの高さを指定する */
+padding-left: 5px; /* ボックス内左側の余白を指定する */
+padding-right: 5px; /* ボックス内御右側の余白を指定する */
+color: #000000; /* フォントの色を指定 */
+text-align: center; /* テキストのセンタリングを指定する */
+line-height: 45px; /* 行の高さを指定する */
+cursor: pointer; /* マウスカーソルの形（リンクカーソル）を指定する */
+border: 2px solid #006DD9;/* ボックスの境界線を実線で指定する */
+border-radius: 5px; /* 角丸を指定する */
+}
+label:hover {
+background-color: #E2EDF9; /* マウスオーバー時の背景色を指定する */
+}
+
+
+textarea {
+  width: 100%;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  margin: 8px 0;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+textarea:focus {
+  border-color: dodgerBlue;
+  box-shadow: 0 0 8px 0 dodgerBlue;
+}
+ 
 .button {
   display: inline-block;
+  width: 150px;
   padding: 0.5em 1em;
   text-decoration: none;
-  background: #668ad8;/*ボタン色*/
-  color: #FFF;
+  background: #E2EDF9;/*ボタン色*/
+  color: #000000;
   border-bottom: solid 4px #627295;
-  border-radius: 10px;
+  border: 2px solid #006DD9;/* ボックスの境界線を実線で指定する */
+  border-radius: 5px; /* 角丸を指定する */
 }
 .button:active {
   /*ボタンを押したとき*/

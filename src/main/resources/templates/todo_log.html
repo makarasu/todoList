@@ -9,7 +9,7 @@
 	<header th:insert="todoList :: frag_header"></header>
 	<h1>todoListLog</h1>
 	<span class="hidden" th:value="${token}"></span>
-	<table border="1">
+	<table>
 		<tr>
 			<th>重要度</th>
 			<th>やること</th>
@@ -18,13 +18,22 @@
 			<th>備考・メモ</th>
 		</tr>
 		<tr th:each="item : ${todoList}">
-			<td th:text="${item.importance}"></td>
+			<td th:if="${item.importance} == 1" th:text="低" id="importance"></td>
+			<td th:if="${item.importance} == 2" th:text="中" id="importance"></td>
+			<td th:if="${item.importance} == 3" th:text="高" id="importance"></td>
 			<td th:text="${item.todo}"></td>
 			<td th:text="${item.term}"></td>
-			<td th:text="${item.category}"></td>
+			<td th:if="${item.category} == 1" th:text="仕事"></td>
+			<td th:if="${item.category} == 2" th:text="日課"></td>
+			<td th:if="${item.category} == 3" th:text="緊急"></td>
+			<td th:if="${item.category} == 4" th:text="その他"></td>
 			<td th:text="${item.memo}"></td>
 		</tr>
 	</table>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{/js/common.js}"></script>
+	<script th:src="@{/js/todolist.js}"></script>
 </body>
 </html>
