@@ -8,7 +8,22 @@
 <body>
 	<header th:insert="todoList :: frag_header"></header>
 	<h1>todoListLog</h1>
-	<span class="hidden" th:value="${token}"></span>
+		<select id="logOrder" class="browser-default" name="order">
+		  <option th:if="${order == 0}" value="0" selected="selected">to-do登録順</option>
+		  <option th:unless="${order == 0}" value="0">to-do登録順</option>
+          <option th:if="${order == 1}" value="1" selected="selected">重要度が低い順</option>
+          <option th:unless="${order == 1}" value="1">重要度が低い順</option>
+          <option th:if="${order == 2}" value="2" selected="selected">重要度が高い順</option>
+          <option th:unless="${order == 2}" value="2">重要度が高い順</option>
+          <option th:if="${order == 3}" value="3" selected="selected">期限日が近い順</option>
+          <option th:unless="${order == 3}" value="3">期限日が近い順</option>
+          <option th:if="${order == 4}" value="4" selected="selected">期限日が遠い順</option>
+          <option th:unless="${order == 4}" value="4">期限日が遠い順</option>
+          <option th:if="${order == 5}" value="5" selected="selected">カテゴリ順</option>
+          <option th:unless="${order == 5}" value="5">カテゴリ順</option>
+        </select>
+        <br> <br> <br>
+	<input type="hidden" th:value="${token}" id="token">
 	<table>
 		<tr>
 			<th>重要度</th>
@@ -34,6 +49,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script th:src="@{/js/common.js}"></script>
-	<script th:src="@{/js/todolist.js}"></script>
+	<script th:src="@{/js/todoLog.js}"></script>
 </body>
 </html>

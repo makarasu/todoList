@@ -82,4 +82,23 @@ public class ToDoListController {
 		}
 		return map;
 	}
+
+	@RequestMapping("/order")
+	public String changeOrder(String token, Integer order, boolean bool, Model model) {
+		String view = null;
+		if (bool == true) {
+			view = "todo_log";
+		} else {
+			view = "todoList";
+		}
+		view = myPageController.checkToken(token, view, model);
+		if (!(view.equals("todo_login"))) {
+			token = model.getAttribute("token").toString();
+			List<TodoList> todoLists = toDoListService.listOrder(token, order, bool);
+			model.addAttribute("todoList", todoLists);
+			model.addAttribute("order", order);
+		}
+		return view;
+	}
+
 }

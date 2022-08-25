@@ -73,6 +73,19 @@ public class ToDoListService {
 	}
 
 	/**
+	 * todoリストの並び替え
+	 * 
+	 * @param token
+	 * @param order
+	 * @return
+	 */
+	@Transactional
+	public List<TodoList> listOrder(String token, Integer order, boolean bool) {
+		List<TodoList> todoLists = todoListRepository.listOrder(token, order, bool);
+		return todoLists;
+	}
+
+	/**
 	 * todoの削除
 	 * 
 	 * @return
