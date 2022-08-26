@@ -55,7 +55,7 @@ public class MyPageController {
 	@RequestMapping("/top")
 	public String index(String token, Model model) {
 		String view = "myPage_top";
-		view = checkToken(token, view, model);
+		view = checkTokenAndUpdateToken(token, view, model);
 		return view;
 	}
 
@@ -69,7 +69,7 @@ public class MyPageController {
 	@RequestMapping("/log")
 	public String todoLog(String token, Model model) {
 		String view = "todo_log";
-		view = checkToken(token, view, model);
+		view = checkTokenAndUpdateToken(token, view, model);
 		if (view.equals("todo_log")) {
 			token = model.getAttribute("token").toString();
 			Boolean enforcement = true;
@@ -89,7 +89,7 @@ public class MyPageController {
 	@RequestMapping("/registrateTodo")
 	public String regiTodo(String token, Model model) {
 		String view = "todo_insert";
-		view = checkToken(token, view, model);
+		view = checkTokenAndUpdateToken(token, view, model);
 		return view;
 	}
 
@@ -107,11 +107,11 @@ public class MyPageController {
 			throws ParseException {
 		if (result.hasErrors()) {
 			String view = "todo_insert";
-			view = checkToken(token, view, model);
+			view = checkTokenAndUpdateToken(token, view, model);
 			return view;
 		}
 		String view = "todoList";
-		view = checkToken(token, view, model);
+		view = checkTokenAndUpdateToken(token, view, model);
 		if (view.equals("todoList")) {
 			token = (String) model.getAttribute("token");
 			toDoListService.insertTodo(form, token);
@@ -130,7 +130,7 @@ public class MyPageController {
 	@RequestMapping("/changePassword")
 	public String changePassword(String token, UsersForm form, Model model) {
 		String view = "changePasswordFromMypage";
-		view = checkToken(token, view, model);
+		view = checkTokenAndUpdateToken(token, view, model);
 		if (view.equals("changePasswordFromMypage")) {
 			token = (String) model.getAttribute("token");
 			Users users = myPageService.findByToken(token);
@@ -151,7 +151,7 @@ public class MyPageController {
 	public String changePasswordComplete(String token, UsersForm form, BindingResult result, Model model)
 			throws NoSuchAlgorithmException {
 		String view = "mypage_top";
-		view = checkToken(token, view, model);
+		view = checkTokenAndUpdateToken(token, view, model);
 		if (form.getPassword().equals("") || form.getPassword() == null) {
 			model.addAttribute("error", "パスワードを入力してください");
 			return "changePasswordFromMypage";
@@ -171,7 +171,7 @@ public class MyPageController {
 	@RequestMapping("/secession")
 	public String secession(String token, Model model) {
 		String view = "user_secession";
-		view = checkToken(token, view, model);
+		view = checkTokenAndUpdateToken(token, view, model);
 		return view;
 	}
 
@@ -187,7 +187,7 @@ public class MyPageController {
 	@RequestMapping("/secessionComplete")
 	public String secessionComplete(UsersForm form, String token, Model model) throws NoSuchAlgorithmException {
 		String view = "secession_complete";
-		view = checkToken(token, view, model);
+		view = checkTokenAndUpdateToken(token, view, model);
 		if (view.equals("secession_complete")) {
 			if (form.getPassword().equals("")) {
 				model.addAttribute("error", "パスワードを入力してください");
@@ -211,7 +211,7 @@ public class MyPageController {
 	 * @param model
 	 * @return
 	 */
-	public String checkToken(String token, String view, Model model) {
+	public String checkTokenAndUpdateToken(String token, String view, Model model) {
 		Token result = userService.checkToken(token);
 		if (result == null) {
 			model.addAttribute("errorMessage", "再度ログインしてください");

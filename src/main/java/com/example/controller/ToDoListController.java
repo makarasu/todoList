@@ -51,7 +51,7 @@ public class ToDoListController {
 	@RequestMapping("/list")
 	public String index(String token, Model model) {
 		String view = "todoList";
-		view = myPageController.checkToken(token, view, model);
+		view = myPageController.checkTokenAndUpdateToken(token, view, model);
 		if (view.equals("todoList")) {
 			token = model.getAttribute("token").toString();
 			Boolean enforcement = false;
@@ -73,7 +73,7 @@ public class ToDoListController {
 	@RequestMapping("/done")
 	public Map<String, String> done(String token, Integer enforcement, Model model) {
 		String view = "todoList";
-		view = myPageController.checkToken(token, view, model);
+		view = myPageController.checkTokenAndUpdateToken(token, view, model);
 		Map<String, String> map = new HashMap<>();
 		if (view.equals("todoList")) {
 			token = model.getAttribute("token").toString();
@@ -91,7 +91,7 @@ public class ToDoListController {
 		} else {
 			view = "todoList";
 		}
-		view = myPageController.checkToken(token, view, model);
+		view = myPageController.checkTokenAndUpdateToken(token, view, model);
 		if (!(view.equals("todo_login"))) {
 			token = model.getAttribute("token").toString();
 			List<TodoList> todoLists = toDoListService.listOrder(token, order, bool);
