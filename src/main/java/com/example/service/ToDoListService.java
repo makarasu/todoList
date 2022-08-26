@@ -35,8 +35,7 @@ public class ToDoListService {
 	 */
 	@Transactional(readOnly = true)
 	public List<TodoList> findList(String token, boolean enforcement) {
-		List<TodoList> todoLists = todoListRepository.findByIdTodo(token, enforcement);
-		return todoLists;
+		return todoListRepository.findByIdTodo(token, enforcement);
 	}
 
 	/**
@@ -81,17 +80,6 @@ public class ToDoListService {
 	 */
 	@Transactional
 	public List<TodoList> listOrder(String token, Integer order, boolean bool) {
-		List<TodoList> todoLists = todoListRepository.listOrder(token, order, bool);
-		return todoLists;
-	}
-
-	/**
-	 * todoの削除
-	 * 
-	 * @return
-	 */
-	@Transactional
-	public void deleteTodo() {
-
+		return todoListRepository.listOrder(token, order, bool);
 	}
 }
