@@ -155,3 +155,9 @@ to-doリスト同様、右上のプルダウンから並べ替えを行うこと
 ![退会手続き完了](./src/main/resources/static/img/userSecessionComp.jpg)  
 
 </details>
+  
+## 今後追加予定・追加してみたい機能  
+- ログアウト機能  
+- ユーザー登録時のメールアドレス認証  
+- to-doの削除機能  
+- 実施済みto-doの統計表示（グラフなど） 
