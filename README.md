@@ -93,3 +93,65 @@ to-doの登録・管理を行うサイトです。
 必要事項を入力し、登録ボタンを押すとto-doが登録され、to-doリスト画面に移動します。
 
 </details>
+<details>
+  <summary>to-doリスト表示</summary>
+
+![to-doリスト](./src/main/resources/static/img/todoList.jpg)  
+マイページ、またはヘッダーの「to-doリスト」を押すと、上記のページが表示されます。  
+画面右上のプルダウンから並べ変えを行うことも可能となっており、下記のとおり  
+並べ替えを行うことが出来ます。  
+to-do登録順/重要度が低い順/重要度が高い順/期限日が近い順/期限日が遠い順/カテゴリ順  
+  
+実施済みにチェックを入れたto-doは自動的に表示されなくなります。（JavaScript使用）  
+実施済みto-doを確認したい場合は「to-doログ」を参照します。
+  
+</details>
+<details>
+  <summary>実施済みto-do表示</summary>
+  
+![to-doログ](./src/main/resources/static/img/todoLog.jpg)  
+マイページ、またはヘッダーの「to-doログ」を押すと、上記のページが表示されます。  
+to-doリストで実施済みにチェックを入れたものが確認できます。  
+to-doリスト同様、右上のプルダウンから並べ替えを行うことが出来ます。
+
+</details>
+<details>
+  <summary>パスワード変更</summary>
+  
+1.ログイン前にパスワードを変更する場合  
+![ログイン前パスワード変更](./src/main/resources/static/img/changePassword2.jpg)  
+ログインに必要なパスワードを忘れてしまった場合、ログイン画面下のリンクから  
+変更を行うことが出来ます。  
+リンクを押すと上記ページが表示されるため、登録しているパスワードを入力します。  
+この時、データベースに一致するメールアドレスが無い場合は、エラーメッセージが表示されます。  
+![ログイン前パスワード変更エラー](./src/main/resources/static/img/changePassword5.jpg)  
+  
+入力されたメールアドレスがデータベースと一致した場合は、秘密の質問に回答するフォームが表示されます。  
+![秘密の質問](./src/main/resources/static/img/changePassword3.jpg)  
+未入力もしくはユーザー登録時に回答した答えと一致しない場合はエラーメッセージが表示されます。  
+  
+回答がデータベースと一致すると、新しいパスワードを設定するフォームが表示されます。  
+![ログイン前パスワード変更2](./src/main/resources/static/img/changePassword4.jpg)  
+パスワードと確認用パスワードが一致しない場合、パスワード変更ボタンは活性化しません。  
+パスワードと確認用パスワードを入力し、パスワード変更ボタンを押すと変更処理が完了し、  
+ログイン画面に戻ります。  
+  
+2.ログイン後にパスワードを変更する場合  
+![ログイン前パスワード変更3](./src/main/resources/static/img/changePassword.jpg)  
+マイページ、またはヘッダーの「パスワード変更」ボタンを押すと、上記のページが表示されます。  
+パスワードと確認用パスワードが一致しない場合、ボタンが活性化せずパスワード変更が出来ません。  
+変更が完了すると、マイページトップに戻ります。  
+
+</details>
+<details>
+  <summary>ユーザー退会手続き</summary>
+  
+![退会手続き](./src/main/resources/static/img/userSecession.jpg)  
+マイページの「退会手続き」ボタンを押すと、上記のページが表示されます。  
+ログイン用パスワードを入力し退会ボタンを押すと、退会処理が行われます。  
+空欄もしくは誤ったパスワードを入力してボタンを押した場合、エラーメッセージが表示されます。  
+![退会手続き](./src/main/resources/static/img/userSecession2.jpg)  
+退会手続きが完了すると、下記のページが表示されます。  
+![退会手続き完了](./src/main/resources/static/img/userSecessionComp.jpg)  
+
+</details>
