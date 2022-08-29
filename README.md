@@ -50,22 +50,22 @@ to-doの登録・管理を行うサイトです。
 ![ログイン画面（エラー）](./src/main/resources/static/img/loginError.jpg)  
 
 2.ユーザー登録画面  
-![ログイン画面](./src/main/resources/static/img/userAdd.jpg)  
+![ユーザー登録](./src/main/resources/static/img/userAdd.jpg)  
 ログインページ内リンクを選択すると、上記の登録フォームが表示されます。  
 パスワードと確認用パスワードの入力が一致しない場合、確認ボタンが活性化しないため登録確認が行えません。（JavaScript使用）  
-![ログイン画面](./src/main/resources/static/img/userAdd2.jpg)  
+![パスワード不一致](./src/main/resources/static/img/userAdd2.jpg)  
 パスワードと確認用パスワードを入力し、確認ボタンを押しても、入力されていない項目がある場合は  エラーメッセージが表示され、確認画面には進めません。  
-![ログイン画面](./src/main/resources/static/img/userAdd3.jpg)  
+![入力値エラー](./src/main/resources/static/img/userAdd3.jpg)  
  同一メールアドレスの使用を避けるため、登録済みメールアドレスで登録を行おうとした場合は  
 エラーメッセージが表示され、確認画面には進めません。  
 ※パスワード以外の入力済み項目はフォームに残ったままになります。
-![ログイン画面](./src/main/resources/static/img/userAdd4.jpg)  
+![同一メールアドレス](./src/main/resources/static/img/userAdd4.jpg)  
 不備なく入力が完了すると、下記のような確認画面に進みます。  
 ![ログイン画面](./src/main/resources/static/img/userAddCheck.jpg)  
 変更がなければ「登録」、修正項目があれば「修正」 ボタンを押します。  
 修正ボタンを押すと、一つ前のページに戻ります。  
 この時も、パスワード以外の入力済み項目は残った状態で表示されます。
-![ログイン画面](./src/main/resources/static/img/userAddComp.jpg)  
+![登録完了](./src/main/resources/static/img/userAddComp.jpg)  
 登録ボタンを押すと、上記のページが表示されます。  
 ログインボタンを押すと、ログインページに戻ります。  
 	
