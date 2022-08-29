@@ -47,8 +47,8 @@ to-doの登録・管理を行うサイトです。
 新規登録をする場合、パスワードを忘れた場合はログインフォーム下部のリンクをクリックします。  
 メールアドレス、パスワードに誤りがある場合、もしくは空欄のままログインボタンを選択すると、  
 下記のようにエラーメッセージが表示されます。  
-![ログイン画面（エラー）](./src/main/resources/static/img/loginError.jpg)
-
+![ログイン画面（エラー）](./src/main/resources/static/img/loginError.jpg)  
+  
 2.ユーザー登録画面  
 ![ログイン画面](./src/main/resources/static/img/userAdd.jpg)  
 ログインページ内リンクを選択すると、上記の登録フォームが表示されます。  
