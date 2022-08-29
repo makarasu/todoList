@@ -73,3 +73,23 @@ to-doの登録・管理を行うサイトです。
 ログインボタンを押すと、ログインページに戻ります。  
 	
 </details>
+<details>
+  <summary>マイページ</summary>
+
+  ![マイページトップ](./src/main/resources/static/img/myPage.jpg)  
+ログインすると、上記のページが表示されます。  
+マイページトップを含め、ログインしていないと表示されないページはトークンの有無・有効性で  
+判定を行うため、ブラウザの「戻る」などを使用すると再度ログインが必要になってしまいます。  
+
+</details>
+<details>
+  <summary>to-do登録</summary>
+  
+![to-do登録](./src/main/resources/static/img/todoAdd.jpg)  
+マイページ、もしくはヘッダーの「to-do登録」を押すと、上記のページが表示されます。  
+重要度、to-doの内容、期限日、カテゴリが必須項目となっており、備考・メモは任意入力です。  
+![to-do登録エラー](./src/main/resources/static/img/todoAdd2.jpg)  
+必須項目を入力しないまま登録ボタンを押すと、エラーメッセージが表示されます。  
+必要事項を入力し、登録ボタンを押すとto-doが登録され、to-doリスト画面に移動します。
+
+</details>
